@@ -1,6 +1,7 @@
 class PriorityQueue # Min Version
   def initialize(heap: [])
     @heap = heap
+    sort
   end
 
   def empty?
