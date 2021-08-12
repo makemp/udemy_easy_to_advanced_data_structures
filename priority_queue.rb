@@ -22,8 +22,9 @@ class PriorityQueue # Min Version
 
   def poll
     swap(0, -1)
-    heap.pop
+    el = heap.pop
     sort
+    el
   end
 
   def contains?(obj)
@@ -37,6 +38,17 @@ class PriorityQueue # Min Version
 
   def inspect
     heap.inspect
+  end
+
+  def test_implementation
+    heap.each_with_index do |el, index|
+      left = heap[left_index(index)]
+      right = heap[right_index(index)]
+      check_left = left.nil? || el <= left
+      check_right = right.nil? || el <= right
+
+      raise 'SOMETHING WRONG!' if !check_left || !check_right
+    end
   end
 
   private
