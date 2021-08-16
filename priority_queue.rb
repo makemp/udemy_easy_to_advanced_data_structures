@@ -1,7 +1,7 @@
 class PriorityQueue # Min Version
   def initialize(heap: [])
     @heap = heap
-    sort
+    @sorted = false
   end
 
   def empty?
@@ -17,14 +17,15 @@ class PriorityQueue # Min Version
   end
 
   def peek
+    sort
     heap[0]
   end
 
   def poll
-    swap(0, -1)
-    el = heap.pop
     sort
-    el
+    swap(0, -1)
+    sorted = false
+    heap.pop
   end
 
   def contains?(obj)
@@ -32,8 +33,8 @@ class PriorityQueue # Min Version
   end
 
   def add(obj)
+    sorted = false
     heap.push(obj)
-    sort
   end
 
   def inspect
@@ -41,6 +42,7 @@ class PriorityQueue # Min Version
   end
 
   def test_implementation
+    sort
     heap.each_with_index do |el, index|
       left = heap[left_index(index)]
       right = heap[right_index(index)]
@@ -74,6 +76,7 @@ class PriorityQueue # Min Version
   end
 
   def sort
+    return if sorted
     changed = false
     heap.each_with_index do |_, index|
       if left_smaller?(index)
@@ -84,7 +87,8 @@ class PriorityQueue # Min Version
         swap(index, right_index(index))
       end
     end
-    sort if changed
+    return sort if changed
+    sorted = true
   end
 
   def swap(parent_index, child_index)
@@ -93,5 +97,6 @@ class PriorityQueue # Min Version
     heap[child_index] = parent_value
   end
 
+  attr_accessor :sorted
   attr_reader :heap
 end
