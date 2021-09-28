@@ -1,0 +1,5 @@
+require_relative 'maciej_data_structures/disjoint_set'
+require_relative 'maciej_data_structures/priority_queue'
+
+module MaciejDataStructures
+end

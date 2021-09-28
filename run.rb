@@ -1,21 +1,34 @@
-require_relative 'priority_queue'
+require 'adjacency_list_builder'
 
-pq = PriorityQueue.new(heap: ((1..9999).to_a + (1..9999).to_a).reverse)
+require_relative 'lib/maciej_data_structures'
 
+@letters = ('a'..'z').to_a
+@letter_to_index = @letters.each_with_object({}).with_index { |(el, memo), index| memo[el] = index}
 
-pq.add(123)
-pq.add(7)
-pq.add(6754)
+@disjoint_set = MaciejDataStructures::DisjointSet.new(('a'..'j').to_a.size)
 
-pq.test_implementation
+def unify(letter_one, letter_two)
+  @disjoint_set.unify(@letter_to_index[letter_one], @letter_to_index[letter_two])
+end
 
-pq.poll
-pq.poll
-pq.add(0)
-pq.poll
-pq.poll
+def inspect_set
+  puts @disjoint_set.tracking_array.map { |i| @letters[i] }.inspect
+  puts @disjoint_set.groups_size.inspect
+end
 
-pq.test_implementation
+def find_me(letter)
+  puts @disjoint_set.find(@letter_to_index[letter]).inspect
+end
 
+unify('a', 'b')
+unify('c', 'd')
+unify('e', 'f')
+unify('g', 'h')
+unify('i', 'j')
 
-pq.inspect
+unify('b', 'c')
+
+find_me('d')
+
+inspect_set
+
